@@ -254,6 +254,9 @@ h1.compact .subtle { font-family: var(--font-sans); font-weight: 400; font-size:
 
 .face {
   position: relative;
+  /* Above .card-link (z-index: 1) so the reveal-thumbnail button underneath
+     stays clickable instead of the stretched card link swallowing the tap. */
+  z-index: 2;
   flex: 0 0 80px;
   width: 80px;
   aspect-ratio: 1 / 1; /* holds its shape before the thumbnail arrives */
