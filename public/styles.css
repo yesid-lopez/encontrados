@@ -167,15 +167,38 @@ h1.compact .subtle { font-family: var(--font-sans); font-weight: 400; font-size:
 /* Report photo with the face-detection geometry drawn over it. Every marker is
    positioned in percentages of this box, which is exactly how Rekognition
    reports its coordinates — so the overlay stays aligned at any size. */
-/* Name on the left, face on the right. */
+/* Name on the left, face on the right. The whole card is a stretched link to
+   the person's page — `.card-link` is the invisible target that covers it —
+   so there is no need to hunt for where to click. The CTA button sits above
+   it (higher z-index) so it still opens /rescate on its own. */
 .card.person {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.9rem;
 }
-.person-info { flex: 1; min-width: 0; }
+.card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.person-info { position: relative; flex: 1; min-width: 0; }
 .person-info h3,
 .person-info p { margin: 0; }
+.cta-mini {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cta-mini:hover { background: var(--accent-dark); }
 
 /* Person page: name and reports on the left, a bigger version of the same face
    spanning both on the right — so it starts level with the title. */
@@ -196,6 +219,26 @@ h1.compact .subtle { font-family: var(--font-sans); font-weight: 400; font-size:
   align-self: start;
   width: 240px;
 }
+
+/* Room at the bottom for the fixed CTA below, so the last update card is never
+   hidden behind it — the whole reason this CTA is fixed in the first place. */
+.person-page { padding-bottom: 4.5rem; }
+
+/* On a long list of updates, "¿La tienes contigo?" used to sit past the fold.
+   Pinning it means it is always one tap away, no matter how much history the
+   person's page has grown. */
+.cta-fixed {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+  background: var(--paper);
+  border-top: 1px solid var(--border);
+  z-index: 10;
+}
+.cta-fixed .big-btn { max-width: 620px; margin: 0 auto; }
 
 /* No room for both side by side on a phone: title, then face, then reports. */
 @media (max-width: 620px) {

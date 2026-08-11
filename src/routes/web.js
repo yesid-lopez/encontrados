@@ -503,9 +503,11 @@ function webRoutes(store, matcher) {
           missing
             .map((p) => {
               return `<article class="card person">
+  <a class="card-link" href="/person/${p.id}" aria-label="Ver ficha de ${esc(p.full_name)}"></a>
   <div class="person-info">
-    <h3><a href="/person/${p.id}">${esc(p.full_name)}</a></h3>
+    <h3>${esc(p.full_name)}</h3>
     <p class="meta">Último reporte: ${timeTag(p.last_report)}</p>
+    <a class="cta-mini" href="/rescate">🔍 ¿La tienes contigo?</a>
   </div>
   ${facePlate(photos.get(p.id), p.full_name)}
 </article>`;
@@ -1091,6 +1093,7 @@ ${LOCATION_SCRIPT}`,
         layout(
           person.full_name,
           `
+<div class="person-page">
 ${req.query.reported ? '<p class="notice">✅ Reporte registrado. Cuando un rescatista tenga a esta persona, verá tus datos de contacto.</p>' : ''}
 ${
   req.query.fotos_ilegibles
@@ -1110,7 +1113,8 @@ ${updates.length ? updates.map((u) => updateCard(u)).join('') : '<p class="subtl
   ${facePlate(photo, person.full_name, { large: true })}
 </div>
 <p class="subtle">Los datos de contacto de quien reporta solo se muestran a un rescatista cuando el rostro coincide.</p>
-<p><a class="big-btn report" href="/rescate">🔍 ¿La tienes contigo? Mira quién la busca</a></p>`,
+</div>
+<p class="cta-fixed"><a class="big-btn report" href="/rescate">🔍 ¿La tienes contigo? Mira quién la busca</a></p>`,
           {
             fullTitle: `${person.full_name} — reportada como desaparecida · encontrados.co`,
             description: `${person.full_name} fue reportada como desaparecida tras el terremoto en Colombia. Si la rescataste, encontrados.co te dice quién la está buscando.`,
